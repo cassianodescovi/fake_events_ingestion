@@ -9,7 +9,7 @@ client = boto3.client('firehose')
 def put_record(event: dict):
     data = json.dumps(event) + "\n"
     response = client.put_record(
-        DeliveryStreamName='', 
+        DeliveryStreamName='fake-events-streaming', 
         Record={"Data":data}
     )
     print(event)
@@ -20,3 +20,6 @@ events = simulation.run(duration_seconds=300)
 
 for event in events:
     put_record(event)
+
+# events/landing-date=!{timestamp:yyyy}-!{timestamp:MM}-!{timestamp:dd}/
+# python3 fake_events.py
